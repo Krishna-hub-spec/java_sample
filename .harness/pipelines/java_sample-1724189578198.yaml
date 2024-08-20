@@ -50,6 +50,15 @@ pipeline:
                             paths:
                               - "**/*.xml"
                         enableTestSplitting: false
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: docker.io
+                    tags:
+                      - maven:3.8.6-openjdk-11
           platform:
             os: Linux
             arch: Amd64
