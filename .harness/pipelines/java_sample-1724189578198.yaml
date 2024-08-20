@@ -10,26 +10,81 @@ pipeline:
         connectorRef: account.Github_OAuth_1724188462314
         repoName: Krishna-hub-spec/java_sample
   stages:
-    - stage:
-        identifier: build
-        name: build
-        spec:
-          caching:
-            enabled: true
-          cloneCodebase: true
-          execution:
-            steps:
-              - step:
-                  identifier: echo
-                  name: echo
-                  spec:
-                    command: echo hello world
-                  timeout: ""
-                  type: Run
-          platform:
-            arch: Amd64
-            os: Linux
-          runtime:
-            spec: {}
-            type: Cloud
-        type: CI
+    - parallel:
+        - stage:
+            identifier: build
+            name: build
+            spec:
+              caching:
+                enabled: true
+              cloneCodebase: true
+              execution:
+                steps:
+                  - step:
+                      identifier: echo
+                      name: echo
+                      spec:
+                        command: echo hello world
+                      timeout: ""
+                      type: Run
+              platform:
+                arch: Amd64
+                os: Linux
+              runtime:
+                spec: {}
+                type: Cloud
+            type: CI
+        - stage:
+            name: build_stage
+            identifier: build_stage
+            description: ""
+            type: CI
+            spec:
+              cloneCodebase: true
+              platform:
+                os: Linux
+                arch: Amd64
+              runtime:
+                type: Cloud
+                spec: {}
+              execution:
+                steps:
+                  - step:
+                      type: Run
+                      name: Run_1
+                      identifier: Run_1
+                      spec:
+                        shell: Sh
+                        command: |-
+                          # Install Maven (if necessary)
+                          # For most CI environments, Maven is already installed. If not, install it.
+                          wget https://downloads.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+                          tar -xzf apache-maven-3.8.6-bin.tar.gz
+                          export PATH=$PATH:$(pwd)/apache-maven-3.8.6/bin
+
+                          # Verify Maven installation
+                          mvn -v
+
+                          # Build the Java application
+                          mvn clean install
+
+                          # Optionally run tests separately (if needed)
+                          mvn test
+
+                          # Package the application
+                          mvn package
+                  - step:
+                      type: RunTests
+                      name: RunTests_1
+                      identifier: RunTests_1
+                      spec:
+                        language: Java
+                        buildTool: Maven
+                        args: mvn clean install
+                        runOnlySelectedTests: true
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - target/surefire-reports/*.xml
+                        enableTestSplitting: false
