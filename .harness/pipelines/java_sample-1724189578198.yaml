@@ -27,13 +27,29 @@ pipeline:
                     command: echo hello world
                   timeout: ""
                   type: Run
-              - step:
-                  type: Run
-                  name: Run_2
-                  identifier: Run_2
-                  spec:
-                    shell: Bash
-                    command: <+input>
+              - parallel:
+                  - step:
+                      type: Run
+                      name: Run_2
+                      identifier: Run_2
+                      spec:
+                        shell: Bash
+                        command: <+input>
+                  - step:
+                      type: RunTests
+                      name: RunTests_1
+                      identifier: RunTests_1
+                      spec:
+                        language: Java
+                        buildTool: Maven
+                        args: "-DskipTests=true"
+                        runOnlySelectedTests: true
+                        reports:
+                          type: JUnit
+                          spec:
+                            paths:
+                              - "**/*.xml"
+                        enableTestSplitting: false
           platform:
             os: Linux
             arch: Amd64
