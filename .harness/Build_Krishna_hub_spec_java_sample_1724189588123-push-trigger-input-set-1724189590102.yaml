@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Krishna_hub_spec_java_sample_1724189588123-push-trigger-input-set
+  identifier: Build_Krishna_hub_spec_java_sample_1724189588123pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: Java__project
+  pipeline:
+    identifier: Build_Krishna_hub_spec_java_sample_1724189588123
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
