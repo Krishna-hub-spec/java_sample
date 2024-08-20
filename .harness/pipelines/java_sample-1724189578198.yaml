@@ -10,51 +10,26 @@ pipeline:
         connectorRef: account.Github_OAuth_1724188462314
         repoName: Krishna-hub-spec/java_sample
   stages:
-    - parallel:
-        - stage:
-            identifier: build
-            name: build
-            spec:
-              caching:
-                enabled: true
-              cloneCodebase: true
-              execution:
-                steps:
-                  - step:
-                      identifier: echo
-                      name: echo
-                      spec:
-                        command: echo hello world
-                      timeout: ""
-                      type: Run
-              platform:
-                arch: Amd64
-                os: Linux
-              runtime:
-                spec: {}
-                type: Cloud
-            type: CI
-        - stage:
-            name: build_stage
-            identifier: build_stage
-            description: ""
-            type: CI
-            spec:
-              cloneCodebase: true
-              platform:
-                os: Linux
-                arch: Amd64
-              runtime:
-                type: Cloud
-                spec: {}
-              execution:
-                steps:
-                  - step:
-                      type: Run
-                      name: Run_1
-                      identifier: Run_1
-                      spec:
-                        connectorRef: account.harnessImage
-                        image: gradle:8.2-jdk11
-                        shell: Sh
-                        privileged: false
+    - stage:
+        identifier: build
+        name: build
+        spec:
+          caching:
+            enabled: true
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  identifier: echo
+                  name: echo
+                  spec:
+                    command: echo hello world
+                  timeout: ""
+                  type: Run
+          platform:
+            arch: Amd64
+            os: Linux
+          runtime:
+            spec: {}
+            type: Cloud
+        type: CI
