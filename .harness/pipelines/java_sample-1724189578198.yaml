@@ -32,6 +32,8 @@ pipeline:
                   name: Run_2
                   identifier: Run_2
                   spec:
+                    connectorRef: account.harnessImage
+                    image: maven:3.8.6-openjdk-17
                     shell: Bash
                     command: <+input>
               - step:
@@ -42,7 +44,7 @@ pipeline:
                     connectorRef: account.harnessImage
                     repo: docker.io
                     tags:
-                      - maven:3.8.6-openjdk-11
+                      - maven:3.8.6-openjdk-17
           platform:
             os: Linux
             arch: Amd64
