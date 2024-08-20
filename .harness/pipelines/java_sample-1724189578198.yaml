@@ -54,4 +54,7 @@ pipeline:
                       name: Run_1
                       identifier: Run_1
                       spec:
+                        connectorRef: account.harnessImage
+                        image: gradle:8.2-jdk11
                         shell: Sh
+                        privileged: false
