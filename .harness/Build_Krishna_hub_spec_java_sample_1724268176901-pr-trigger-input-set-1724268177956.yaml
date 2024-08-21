@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Krishna_hub_spec_java_sample_1724268176901-pr-trigger-input-set
+  identifier: Build_Krishna_hub_spec_java_sample_1724268176901prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: Java__project
+  pipeline:
+    identifier: Build_Krishna_hub_spec_java_sample_1724268176901
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
